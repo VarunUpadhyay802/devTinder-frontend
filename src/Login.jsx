@@ -1,8 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "./utils/userSlice";
+
 const Login = () => {
   const [emailId, setEmailId] = useState("varun@gmail.com");
   const [password, setPassword] = useState("varun@123");
+  const dispatch = useDispatch() ;
   const handleLogin = async () => {
     try {
       const res = await axios.post(
@@ -13,6 +17,9 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      console.log(res.data.data);
+      //dispatch an action(function in reducer) from the slice
+      dispatch(addUser(res.data.data))
     } catch (error) {
       console.log(error);
     }
