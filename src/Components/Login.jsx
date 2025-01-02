@@ -1,16 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addUser } from "./utils/userSlice";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("varun@gmail.com");
   const [password, setPassword] = useState("varun@123");
-  const dispatch = useDispatch() ;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/login",
+        `${BASE_URL}/login`,
         {
           emailId,
           password,
@@ -18,8 +21,9 @@ const Login = () => {
         { withCredentials: true }
       );
       console.log(res.data.data);
+      navigate("/");
       //dispatch an action(function in reducer) from the slice
-      dispatch(addUser(res.data.data))
+      dispatch(addUser(res.data.data));
     } catch (error) {
       console.log(error);
     }
