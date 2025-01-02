@@ -1,5 +1,8 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
+import axios from "axios";
+import { removeUser } from "../utils/userSlice";
 
 const NavBar = () => {
   //useselector for subscribing to the store
@@ -7,6 +10,22 @@ const NavBar = () => {
   //you create a variable of what you want to get from the store
   const user = useSelector((store) => store.user);
   // console.log(user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const handleLogout = async()=>{
+      
+      try {
+        const res = await axios.post(BASE_URL+"/logout" ,{} ,{withCredentials:true}) ;
+        console.log(res);
+        //logged out from the backend, but still redux hold the data
+        //dispatch an action to remove user
+        dispatch(removeUser())
+        return navigate("/login");
+      } catch (err) {
+        
+        console.log(err)
+      }
+  }
 
   return (
     <div className="navbar bg-base-300">
@@ -37,7 +56,8 @@ const NavBar = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              
+              <a onClick={()=>handleLogout()}>Logout</a>
             </li>
           </ul>
         </div>
