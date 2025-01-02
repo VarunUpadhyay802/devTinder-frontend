@@ -14,11 +14,14 @@ const Body = () => {
   const userData = useSelector((store) => store.user);
 
   const fetchUser = async () => {
+    //if you already have the userData earlyReturn , you don't want redundant api calls 
     if (userData) return;
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
+       //if you get the user , update the store , so dispatch an action basically
+      //dispatch an action (which is our adduser)
       dispatch(addUser(res.data.data));
     } catch (err) {
       if (err.response && err.response.status === 404) {
