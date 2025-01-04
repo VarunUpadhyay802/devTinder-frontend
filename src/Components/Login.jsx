@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("varun@123");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
   const handleLogin = async () => {
     try {
       const res = await axios.post(
@@ -25,6 +26,11 @@ const Login = () => {
       //dispatch an action(function in reducer) from the slice
       dispatch(addUser(res.data.data));
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setMessage(error?.response?.data.message); // Use the backend message
+      } else {
+        setMessage("An unexpected error occurred. Please try again.");
+      }
       console.log(error);
     }
   };
@@ -58,10 +64,13 @@ const Login = () => {
             </label>
           </div>
           {/* <p className="text-red-500">{error}</p> */}
+          <p className="text-red-400">ERROR: {message}</p>
           <div className="card-actions justify-center m-2">
+            
             <button className="btn btn-primary" onClick={handleLogin}>
               Login
             </button>
+            
           </div>
         </div>
       </div>
