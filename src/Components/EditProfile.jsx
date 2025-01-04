@@ -11,34 +11,8 @@ const EditProfile = ({ user }) => {
   const [age, setAge] = useState(user.age);
   const [gender, setGender] = useState(user.gender);
   const [about, setAbout] = useState(user.about);
-  const [error, setError] = useState("");
-  const dispatch = useDispatch();
-  const [showToast, setShowToast] = useState(false);
-  const saveProfile = async () => {
-    //Clear Errors
-    setError("");
-    try {
-      const res = await axios.patch(
-        BASE_URL + "/profile/edit",
-        {
-          firstName,
-          lastName,
-          photoUrl,
-          age,
-          gender,
-          about,
-        },
-        { withCredentials: true }
-      );
-      dispatch(addUser(res?.data?.data));
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
-    } catch (err) {
-      setError(err.response.data);
-    }
-  };
+
+
   return (
     <>
       <div className="flex justify-center my-10">
@@ -114,26 +88,18 @@ const EditProfile = ({ user }) => {
                   />
                 </label>
               </div>
-              <p className="text-red-500">{error}</p>
+              {/* <p className="text-red-500">{error}</p> */}
               <div className="card-actions justify-center m-2">
-                <button className="btn btn-primary" onClick={saveProfile}>
+                <button className="btn btn-primary" >
                   Save Profile
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <UserCard
-          user={{ firstName, lastName, photoUrl, age, gender, about }}
-        />
+       
       </div>
-      {showToast && (
-        <div className="toast toast-top toast-center">
-          <div className="alert alert-success">
-            <span>Profile saved successfully.</span>
-          </div>
-        </div>
-      )}
+     
     </>
   );
 };
