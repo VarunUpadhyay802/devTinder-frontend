@@ -11,26 +11,42 @@ const EditProfile = ({ user }) => {
   const [age, setAge] = useState(user.age);
   const [gender, setGender] = useState(user.gender);
   const [about, setAbout] = useState(user.about);
-  const [error , setError] = useState("")
+  const [error, setError] = useState("");
+  const [toast, setToast] = useState(false);
   const dispatch = useDispatch();
   const saveProfile = async () => {
-    //
+    //Clear the error just before saving the Profile
+    setError("");
     const payload = { firstName, lastName, photoUrl, age, gender, about };
     try {
-      const res = await axios.patch(
-        BASE_URL + "/profile/edit",
-        payload ,
-        { withCredentials: true }
-      );
-      dispatch(res.data)
+      const res = await axios.patch(BASE_URL + "/profile/edit", payload, {
+        withCredentials: true,
+      });
+     
+      
       //if you got the response save it to the store
-      // dispatch(addUser(user));
+      dispatch(addUser(res?.data?.data));
+      //show the toast
+      setToast(true);
+      setTimeout(()=>{
+        //set it to false again
+        setToast(false)
+      },3000)
+      
     } catch (error) {
       setError(error.response.data);
     }
   };
   return (
     <>
+      {toast && (
+        <div className="toast toast-end toast-middle">
+          <div className="alert alert-success">
+            <span>Profile Updated Successfully</span>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-center my-10">
         <div className="flex justify-center mx-10">
           <div className="card bg-base-300 w-96 shadow-xl">
@@ -110,7 +126,6 @@ const EditProfile = ({ user }) => {
                   Save Profile{" "}
                 </button>
               </div>
-              
             </div>
           </div>
         </div>
