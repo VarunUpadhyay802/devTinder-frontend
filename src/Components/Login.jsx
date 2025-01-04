@@ -64,7 +64,7 @@ const Login = () => {
             </label>
           </div>
           {/* <p className="text-red-500">{error}</p> */}
-          <p className="text-red-400">ERROR: {message}</p>
+          <p className="text-red-400">{message}</p>
           <div className="card-actions justify-center m-2">
             
             <button className="btn btn-primary" onClick={handleLogin}>
