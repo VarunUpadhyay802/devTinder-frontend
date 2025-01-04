@@ -11,8 +11,24 @@ const EditProfile = ({ user }) => {
   const [age, setAge] = useState(user.age);
   const [gender, setGender] = useState(user.gender);
   const [about, setAbout] = useState(user.about);
-
-
+  const [error , setError] = useState("")
+  const dispatch = useDispatch();
+  const saveProfile = async () => {
+    //
+    const payload = { firstName, lastName, photoUrl, age, gender, about };
+    try {
+      const res = await axios.patch(
+        BASE_URL + "/profile/edit",
+        payload ,
+        { withCredentials: true }
+      );
+      dispatch(res.data)
+      //if you got the response save it to the store
+      // dispatch(addUser(user));
+    } catch (error) {
+      setError(error.response.data);
+    }
+  };
   return (
     <>
       <div className="flex justify-center my-10">
@@ -88,18 +104,20 @@ const EditProfile = ({ user }) => {
                   />
                 </label>
               </div>
-              {/* <p className="text-red-500">{error}</p> */}
+              <p className="text-red-400">{error}</p>
               <div className="card-actions justify-center m-2">
-                <button className="btn btn-primary" >
-                  Save Profile
+                <button className="btn btn-primary" onClick={saveProfile}>
+                  Save Profile{" "}
                 </button>
               </div>
+              
             </div>
           </div>
         </div>
-       
+        <UserCard
+          user={{ firstName, lastName, photoUrl, age, gender, about }}
+        />
       </div>
-     
     </>
   );
 };

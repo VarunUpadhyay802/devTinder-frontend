@@ -6,6 +6,7 @@ const Profile = () => {
   //suscribing to the store and getting the user 
   const user = useSelector((store) => store.user);
   return (
+    //It will throw error without this condition
     user && (
       <div>
         <EditProfile user={user} />
