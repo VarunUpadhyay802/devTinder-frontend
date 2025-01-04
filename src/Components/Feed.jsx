@@ -1,24 +1,48 @@
-import React, { useEffect } from 'react'
-import { BASE_URL } from '../utils/constants'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { addFeed } from '../utils/feedSlice'
+import React, { useEffect } from "react";
+import { BASE_URL } from "../utils/constants";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addFeed } from "../utils/feedSlice";
+import UserCard from "./UserCard";
 
 const Feed = () => {
   const dispatch = useDispatch();
-  const updateFeed = async() =>{
-    const res = await axios.get(BASE_URL +"/user/feed",{withCredentials:true}) ;
-    //we have to store that in redux (just like addUser we have to make one more slice for this seperately)
-    dispatch(addFeed(res.data));
-  }
+  const feed = useSelector((store) => store.feed);
 
-  useEffect(()=>{
+  const updateFeed = async () => {
+    try {
+      if (feed) return;
+      else {
+        const res = await axios.get(BASE_URL + "/user/feed", {
+          withCredentials: true,
+        });
+
+        //we have to store that in redux (just like addUser we have to make one more slice for this seperately)
+        dispatch(addFeed(res.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     updateFeed();
-  },[])
+  }, []);
 
   return (
-    <div>YOu will see all the feed here </div>
-  )
-}
+    <>
+      {/* {feed &&
+        feed?.map((index, element) => {
+          <UserCard key={index} user={element} />;
+        })} */}
+        {
+          feed &&
+          <div className="flex justify-center mt-4">
+            <UserCard user={feed[0]} />;
+          </div>
+        }
+    </>
+  );
+};
 
-export default Feed
+export default Feed;
