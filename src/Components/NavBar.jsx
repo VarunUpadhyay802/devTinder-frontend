@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { removeUser } from "../utils/userSlice";
@@ -32,7 +32,9 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-300">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">👩‍💻 DevTinder</a>
+        <Link to="/" className="btn btn-ghost text-xl">
+          👩‍💻 DevTinder
+        </Link>
       </div>
       <div className="flex-none gap-2">
         <div className="form-control"></div>
@@ -51,11 +53,14 @@ const NavBar = () => {
             <li>
               <Link to="/profile" className="justify-between">
                 Profile
-                <span className="badge">New</span>
+                {/* <span className="badge">New</span> */}
               </Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link to="/connections" className="justify-between">
+                Connections
+                {/* <span className="badge">New</span> */}
+              </Link>
             </li>
             <li>
               <a onClick={() => handleLogout()}>Logout</a>
