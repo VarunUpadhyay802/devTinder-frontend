@@ -28,19 +28,23 @@ const Feed = () => {
   useEffect(() => {
     updateFeed();
   }, []);
-
+  if (!feed || feed.length == 0)
+    return (
+      <div className="text-2xl font-bold text-center items-center flex">
+        You don't have any new User on your feed{" "}
+      </div>
+    );
   return (
     <>
       {/* {feed &&
         feed?.map((index, element) => {
           <UserCard key={index} user={element} />;
         })} */}
-        {
-          feed &&
-          <div className="flex justify-center mt-4">
-            <UserCard user={feed[0]} />;
-          </div>
-        }
+      {feed && (
+        <div className="flex justify-center mt-4">
+          <UserCard user={feed[0]} />;
+        </div>
+      )}
     </>
   );
 };
