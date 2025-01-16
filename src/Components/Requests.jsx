@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../utils/requestSlice";
+import { addRequests, removremovRequest } from "../utils/requestSlice";
 import { useEffect } from "react";
 //All the pending requests here
 const Requests = () => {
@@ -21,13 +21,15 @@ const Requests = () => {
   };
   const reviewRequests = (status, _id) => {
     try {
-      // /request/review/:status/:requestId
+      // /request/review/:status/:requestId (remember : that it's your request ID in the url)
       //if you don't want to send the data ,just keep it empty but do send it
       const res = axios.post(
         BASE_URL + "/request/review/" + status + "/" + _id,
         {},
         { withCredentials: true }
       );
+      //dispatch and action remove request after removing , and pass the ID of the request
+      dispatch(removremovRequest(_id))
     } catch (error) {
       console.log(error);
     }
