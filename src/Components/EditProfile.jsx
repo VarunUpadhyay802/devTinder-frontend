@@ -8,8 +8,9 @@ const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [age, setAge] = useState(user.age);
-  const [gender, setGender] = useState(user.gender);
+  //when we go from signup to directly profile page , age is coming from redux which is alreay empty so handle that carefully
+  const [age, setAge] = useState(user.age || 18);
+  const [gender, setGender] = useState(user.gender || "male");
   const [about, setAbout] = useState(user.about);
   const [error, setError] = useState("");
   const [toast, setToast] = useState(false);

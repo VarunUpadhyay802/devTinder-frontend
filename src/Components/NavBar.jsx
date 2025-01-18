@@ -9,6 +9,7 @@ const NavBar = () => {
   //means just using the data in the store
   //you create a variable of what you want to get from the store
   const user = useSelector((store) => store.user);
+  const request = useSelector((store) =>store.requests)
   // console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const NavBar = () => {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            {user && <img src={user?.photoUrl} alt="User" />}
+            {user && <img src={user?.photoUrl} alt="User" className="rounded-lg " />}
           </div>
           <ul
             tabIndex={0}
@@ -64,10 +65,16 @@ const NavBar = () => {
             </li>
             <li>
               <Link to="/requests" className="justify-between">
-                Requests
+                Requests  {request.length==0 ? (null):(request?.length)}
               </Link>
             </li>
             <li>
+              <Link to="/ignored" className="justify-between">
+                Ignored
+              </Link>
+            </li>
+            <li>
+              
               <a onClick={() => handleLogout()}>Logout</a>
             </li>
           </ul>

@@ -10,12 +10,14 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [isLoginForm, setIsLoginForm] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [isLoading , setIsloading] = useState(false);
+ 
   const handleLogin = async () => {
+    setIsloading(true)
     try {
       const res = await axios.post(
         BASE_URL + "/login",
@@ -25,23 +27,30 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      setIsloading(false)
       dispatch(addUser(res.data.data));
       return navigate("/");
     } catch (err) {
+      setIsloading(false)
       setError(err?.response?.data || "Something went wrong");
     }
   };
 
   const handleSignUp = async () => {
+    setIsloading(true)
     try {
       const res = await axios.post(
         BASE_URL + "/signup",
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
+      
       dispatch(addUser(res.data.data));
+      setIsloading(false)
+
       return navigate("/profile");
     } catch (err) {
+      setIsloading(false)
       setError(err?.response?.data || "Something went wrong");
     }
   };
@@ -109,7 +118,9 @@ const Login = () => {
               className="btn btn-primary"
               onClick={isLoginForm ? handleLogin : handleSignUp}
             >
-              {isLoginForm ? "Login" : "Sign Up"}
+
+              {isLoading ? ("Loading..."):(isLoginForm ? "Login" : "Sign Up")}
+              
             </button>
           </div>
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
-
+import { ThreeDots } from "react-loader-spinner";
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
@@ -17,7 +17,6 @@ const Feed = () => {
           withCredentials: true,
         });
 
-        //we have to store that in redux (just like addUser we have to make one more slice for this seperately)
         dispatch(addFeed(res.data));
       }
     } catch (error) {
@@ -28,23 +27,51 @@ const Feed = () => {
   useEffect(() => {
     updateFeed();
   }, []);
-  if (!feed || feed.length == 0)
+  if (!feed) {
     return (
-      <div className="text-2xl font-bold text-center items-center flex">
-        You don't have any new User on your feed{" "}
+      <div className="flex flex-col items-center justify-center mt-32 ">
+      <div className="text-2xl lg:text-3xl">Loading</div>
+      <div className="">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#ffff"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
       </div>
+    </div>
+    );
+  }
+  if (feed.length == 0)
+    return (
+      <>
+        <div className="flex flex-col items-center justify-center gap-5 mt-40">
+          <div className="text-2xl font-bold text-center items-center flex">
+            Empty Feed
+          </div>
+          <div>
+            <img
+              src="/images/vecteezy_empty-open-cardboard-box-for-packing_46006535.png"
+              alt="No feed"
+              className="w-[25%] mx-auto"
+            />
+          </div>
+        </div>
+      </>
     );
   return (
     <>
-      {/* {feed &&
-        feed?.map((index, element) => {
-          <UserCard key={index} user={element} />;
-        })} */}
       {feed && (
         <div className="flex justify-center mt-4">
           <UserCard user={feed[0]} />;
         </div>
       )}
+      
+      
     </>
   );
 };

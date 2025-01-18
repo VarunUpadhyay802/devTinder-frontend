@@ -4,7 +4,7 @@ import { removeUserFromFeed } from "../utils/feedSlice";
 import { useDispatch } from "react-redux";
 
 const UserCard = ({ user }) => {
-  const { _id , photoUrl, firstName, lastName, gender, about } = user;
+  const { _id, photoUrl, firstName, lastName, gender, about ,age} = user;
   const dispatch = useDispatch();
   //sending interested or ignored to a particular user
   const handleSendRequest = async (status, userId) => {
@@ -21,16 +21,21 @@ const UserCard = ({ user }) => {
     dispatch(removeUserFromFeed(userId));
   };
   return (
-    <div className="card bg-base-200 w-96 shadow-2xl">
+    <div className="card bg-gray-200 lg:w-96 shadow-sm pt-4 text-center shadow-2xl">
       <figure>
-        <img src={photoUrl} alt={`${firstName}'s Profile`} />
+        <img
+          src={photoUrl}
+          alt={`${firstName}'s Profile`}
+          className="rounded-md w-[80%]"
+        />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">
-          {firstName} {lastName}
+        <h2 className="card-title  capitalize justify-center">
+          <span className="text-xl">{firstName} {lastName}</span> {age}
         </h2>
-        <p>{about}</p>
-        <div className="card-actions justify-end">
+
+        <div className="text-gray-500 text-lg ">{about}</div>
+        <div className="card-actions justify-center">
           <button
             className="btn btn-primary"
             onClick={() => handleSendRequest("ignored", _id)}

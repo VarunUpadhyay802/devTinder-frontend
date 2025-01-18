@@ -40,7 +40,7 @@ const Body = () => {
       <NavBar />
       {/* outlet comes from react router dom and will render the children of the body */}
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
