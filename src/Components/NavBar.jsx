@@ -65,7 +65,7 @@ const NavBar = () => {
             </li>
             <li>
               <Link to="/requests" className="justify-between">
-                Requests  {request.length==0 ? (null):(request?.length)}
+                Requests  {request?.length==0 ? (null):(request?.length)}
               </Link>
             </li>
             <li>
